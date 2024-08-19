@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -37,5 +38,26 @@ public class RedisTemplateTests {
         stringRedisTemplate.expire("simplekey", 5, TimeUnit.SECONDS);
         stringRedisTemplate.expire("greeting", 10, TimeUnit.SECONDS);
         stringRedisTemplate.expire("hobbies", 15, TimeUnit.SECONDS);
+    }
+
+    @Autowired
+    private RedisTemplate<String, ItemDto> itemRedisTemplate;
+
+    @Test
+    public void itemRedisTemplateTest() {
+        ValueOperations<String, ItemDto> ops = itemRedisTemplate.opsForValue();
+        ops.set("my:keyboard", ItemDto.builder()
+                .name("Mechanical Keyboard")
+                .price(300000)
+                .description("Expensive 😢")
+                .build());
+        System.out.println(ops.get("my:keyboard"));
+
+        ops.set("my:mouse", ItemDto.builder()
+                .name("mouse mice")
+                .price(100000)
+                .description("Expensive 😢")
+                .build());
+        System.out.println(ops.get("my:mouse"));
     }
 }
