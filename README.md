@@ -1,1 +1,3 @@
-# Repository for Use Redis in Spring lecture
+# READNE
+
+**Repository for Use Redis in Spring lecture**
